@@ -1,5 +1,6 @@
 package com.hotel.managerservice.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,16 @@ public class ManagerServiceImpl implements ManagerService {
 	public String deleteRoom(int parseInt) {
 		repo.deleteById(parseInt);
 		return "Room Number "+parseInt+" Deleted";
+	}
+
+	@Override
+	public List<Room> getAvailableRooms() {
+		return repo.findAvailable();
+	}
+
+	@Override
+	public List<Room> getAllRooms() {
+		return repo.findAll();
 	}
 	
 	

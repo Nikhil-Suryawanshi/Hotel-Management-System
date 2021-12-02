@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotel.managerservice.models.Room;
+import com.hotel.managerservice.models.RoomList;
 import com.hotel.managerservice.services.ManagerService;
+
 
 @RestController
 @RequestMapping("/Manager")
@@ -52,4 +54,21 @@ public class ManagerController {
 	{
 		return this.service.deleteRoom(Integer.parseInt(id));
 	}
+	
+	@GetMapping("/getAllRooms")
+	public RoomList getAllGuest()
+	{
+		RoomList list=new RoomList();
+		list.setAllRooms(this.service.getAllRooms());
+		return list;
+	}
+	
+	@GetMapping("/getAvlRooms")
+	public RoomList getAvlRooms()
+	{
+		RoomList list=new RoomList();
+		list.setAllRooms(this.service.getAvailableRooms());
+		return list;
+	}
+	
 }

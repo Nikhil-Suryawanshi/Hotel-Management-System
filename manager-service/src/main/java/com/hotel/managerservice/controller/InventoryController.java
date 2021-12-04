@@ -16,7 +16,7 @@ import com.hotel.managerservice.models.Inventory;
 import com.hotel.managerservice.services.InventoryService;
 
 @RestController
-@RequestMapping("/Manager")
+@RequestMapping("/Manager/Inventory")
 public class InventoryController {
 	@Autowired
 	private InventoryService service;

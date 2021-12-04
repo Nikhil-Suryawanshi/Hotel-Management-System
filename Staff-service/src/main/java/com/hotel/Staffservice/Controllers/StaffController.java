@@ -1,4 +1,4 @@
-package com.hotel.managerservice.controller;
+package com.hotel.Staffservice.Controllers;
 
 import java.util.Optional;
 
@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hotel.managerservice.models.Staff;
-import com.hotel.managerservice.services.StaffService;
+import com.hotel.Staffservice.Models.Staff;
+import com.hotel.Staffservice.Services.StaffService;
+
 
 @RestController
-@RequestMapping("/Manager/Staff")
+@RequestMapping("/Staff")
 public class StaffController {
 	@Autowired
 	private StaffService service;

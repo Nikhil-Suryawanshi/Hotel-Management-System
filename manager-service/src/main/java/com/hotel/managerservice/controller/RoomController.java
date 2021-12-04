@@ -20,17 +20,11 @@ import com.hotel.managerservice.services.ManagerService;
 
 
 @RestController
-@RequestMapping("/Manager")
-public class ManagerController {
+@RequestMapping("/Manager/Room")
+public class RoomController {
 	
 	@Autowired
 	private ManagerService service;
-	
-	
-	@GetMapping("/hello")
-	public String hello() {
-		return "Hello manager";
-	}
 	
 	@PostMapping("/addRoom")
 	public Room addRoom(@RequestBody Room room) {

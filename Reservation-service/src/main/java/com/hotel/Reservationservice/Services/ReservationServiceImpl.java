@@ -21,11 +21,11 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public String bookRoom(Reservation res) {
-		Room room= restTmp.getForObject("http://localhost:8082/Manager/getRoom/"+res.getRoomId(), Room.class);
+		Room room= restTmp.getForObject("http://Room-Microservice/Room/getRoom/"+res.getRoomId(), Room.class);
 		if(room.isAvailable()) {
 			repo.insert(res);
 			room.setAvailable(false);
-			restTmp.put("http://localhost:8082/Manager/updateRoom", room);
+			restTmp.put("http://Room-Microservice/Room/updateRoom", room);
 			return "Room Number "+room.getRoomNum()+" booked for Guest : "+res.getGuestId();
 		}
 		else {
@@ -50,9 +50,9 @@ public class ReservationServiceImpl implements ReservationService {
 	public String deleteRes(int id) {
 		Optional<Reservation> res=repo.findById(id);
 		Reservation res1=res.get();
-		Room room= restTmp.getForObject("http://localhost:8082/Manager/getRoom/"+res1.getRoomId(), Room.class);
+		Room room= restTmp.getForObject("http://Room-Microservice/Room/getRoom/"+res1.getRoomId(), Room.class);
 		room.setAvailable(true);
-		restTmp.put("http://localhost:8082/Manager/updateRoom", room);
+		restTmp.put("http://Room-Microservice/Room/updateRoom", room);
 		repo.deleteById(id);
 		return "Deleted Reservation ID : "+id;
 	}

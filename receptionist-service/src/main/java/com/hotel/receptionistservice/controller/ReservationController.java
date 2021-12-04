@@ -23,26 +23,26 @@ public class ReservationController {
 	@PostMapping("/makeReservation")
 	public String makeReservation(@RequestBody Reservation res)
 	{
-		return restTmp.postForObject("http://localhost:8084/Reservation/bookRoom", res, String.class);
+		return restTmp.postForObject("http://Reservation-microservice/Reservation/bookRoom", res, String.class);
 	}
 	
 	@GetMapping("/getReservations")
 	public ReservationList getRes()
 	{
-		return restTmp.getForObject("http://localhost:8084/Reservation/getReservations", ReservationList.class);
+		return restTmp.getForObject("http://Reservation-microservice/Reservation/getReservations", ReservationList.class);
 	}
 	
 	@PutMapping("/updateReservation")
 	public Reservation updateReservation(@RequestBody Reservation res)
 	{
-		restTmp.put("http://localhost:8084/Reservation/updateReservation", res);
+		restTmp.put("http://Reservation-microservice/Reservation/updateReservation", res);
 		return res;
 	}
 	
 	@DeleteMapping("/CancelReservation/{id}")
 	public String cancelReservation(@PathVariable("id") String id)
 	{
-		restTmp.delete("http://localhost:8084/Reservation/deleteReservation/"+id);
+		restTmp.delete("http://Reservation-microservice/Reservation/deleteReservation/"+id);
 		return "Canceled Reservation with Id: "+id;
 	}
 }

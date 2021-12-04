@@ -1,7 +1,6 @@
 package com.hotel.ownerservice.controller;
 
-import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,8 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hotel.ownerservice.models.Department;
 import com.hotel.ownerservice.models.DepartmentList;
-import com.hotel.ownerservice.models.Room;
-import com.hotel.ownerservice.services.OwnerService;
 
 @RestController
 @RequestMapping("/Owner/Department")

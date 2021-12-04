@@ -1,8 +1,6 @@
 package com.hotel.managerservice.controller;
 
-import java.util.Optional;
 
-import javax.ws.rs.Path;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,10 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.hotel.managerservice.models.Room;
 import com.hotel.managerservice.models.RoomList;
-import com.hotel.managerservice.services.ManagerService;
 
 
 @RestController
@@ -24,45 +22,43 @@ import com.hotel.managerservice.services.ManagerService;
 public class RoomController {
 	
 	@Autowired
-	private ManagerService service;
+	private RestTemplate restTmp;
 	
 	@PostMapping("/addRoom")
 	public Room addRoom(@RequestBody Room room) {
-		return this.service.addRoom(room);
+		return restTmp.postForObject("http://Room-Microservice/Room/addRoom", room, Room.class);
 	}
 	
 	@GetMapping("/getRoom/{id}")
-	public Optional<Room> getRoom(@PathVariable("id") String id)
+	public Room getRoom(@PathVariable("id") String id)
 	{
-		return this.service.getRoom(Integer.parseInt(id));
+		return restTmp.getForObject("http://Room-Microservice/Room/getRoom/"+id, Room.class);
 	}
 	
 	@PutMapping("/updateRoom")
 	public Room updateRoom(@RequestBody Room room)
 	{
-		return this.service.updateRoom(room);
+		restTmp.put("http://Room-Microservice/Room/updateRoom", room);
+		return room;
 	}
 	
 	@DeleteMapping("/deleteRoom/{id}")
 	public String deleteRoom(@PathVariable("id") String id)
 	{
-		return this.service.deleteRoom(Integer.parseInt(id));
+		restTmp.delete("http://Room-Microservice/Room/deleteRoom/"+id);
+		return "Deleted Room Id: "+id;
 	}
 	
 	@GetMapping("/getAllRooms")
-	public RoomList getAllGuest()
+	public RoomList getAllRooms()
 	{
-		RoomList list=new RoomList();
-		list.setAllRooms(this.service.getAllRooms());
-		return list;
+		return restTmp.getForObject("http://Room-Microservice/Room/getAllRooms", RoomList.class);
 	}
 	
-	@GetMapping("/getAvlRooms")
-	public RoomList getAvlRooms()
+	@GetMapping("/getAvailableRooms")
+	public RoomList getAvailableRooms()
 	{
-		RoomList list=new RoomList();
-		list.setAllRooms(this.service.getAvailableRooms());
-		return list;
+		return restTmp.getForObject("http://Room-Microservice/Room/getAvlRooms", RoomList.class);
 	}
 	
 }

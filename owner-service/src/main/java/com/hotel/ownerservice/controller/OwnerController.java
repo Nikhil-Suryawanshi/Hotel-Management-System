@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.hotel.ownerservice.models.Department;
+import com.hotel.ownerservice.models.DepartmentList;
 import com.hotel.ownerservice.models.Room;
 import com.hotel.ownerservice.services.OwnerService;
 
 @RestController
-@RequestMapping("/Owner")
+@RequestMapping("/Owner/Department")
 public class OwnerController {
 	@Autowired
-	private OwnerService service;
+	private RestTemplate restTmp;
 	
 	@GetMapping("/hello")
 	public String helloMsg() {
@@ -32,31 +33,33 @@ public class OwnerController {
 	@PostMapping("/add")
 	public Department addDept(@RequestBody Department dept) 
 	{
-		return this.service.addDepartment(dept); 
+		return restTmp.postForObject("http://Department-microservice/Department/add", dept, Department.class);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public String deleteDepartment(@PathVariable("id") String id) 
 	{
-		return this.service.deleteDepartment(Long.parseLong(id));
+		restTmp.delete("http://Department-microservice/Department/delete/"+id);
+		return "Deleted Department Id: "+id;
 	}
 	
 	@PutMapping("/update")
 	public Department updateDepartment(@RequestBody Department dept)
 	{
-		return this.service.updateDepartment(dept);
+		restTmp.put("http://Department-microservice/Department/update", dept);
+		return dept;
 	}
 	
 	@GetMapping("/findById/{id}")
-	public Optional<Department> getDepartment(@PathVariable("id") String id)
+	public Department getDepartment(@PathVariable("id") String id)
 	{
-		return this.service.getDepartment(Long.parseLong(id));
+		return restTmp.getForObject("http://Department-microservice/Department/findById/"+id, Department.class);
 	}
 	
 	@GetMapping("/ShowAll")
-	public List<Department> getAllDepartments()
+	public DepartmentList getAllDepartments()
 	{
-		return this.service.getAllDepartments();
+		return restTmp.getForObject("http://Department-microservice/Department/ShowAll", DepartmentList.class);
 	}
 	
 	

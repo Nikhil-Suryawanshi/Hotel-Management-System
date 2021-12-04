@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hotel.Departmentservice.Models.Department;
+import com.hotel.Departmentservice.Models.DepartmentList;
 import com.hotel.Departmentservice.Repo.MongoDBRepo;
 
 @Service
@@ -37,8 +38,10 @@ public class DepartmentServiceImp implements DepartmentService {
 	}
 
 	@Override
-	public List<Department> getAllDepartments() {
-		return repo.findAll();
+	public DepartmentList getAllDepartments() {
+		DepartmentList list =new DepartmentList();
+		list.setDeptList(repo.findAll());
+		return list;
 	}
 
 }

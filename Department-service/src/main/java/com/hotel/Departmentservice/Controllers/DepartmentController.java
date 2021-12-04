@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.hotel.Departmentservice.Models.Department;
+import com.hotel.Departmentservice.Models.DepartmentList;
 import com.hotel.Departmentservice.Services.DepartmentService;
 
 
@@ -54,7 +55,7 @@ public class DepartmentController {
 	}
 	
 	@GetMapping("/ShowAll")
-	public List<Department> getAllDepartments()
+	public DepartmentList getAllDepartments()
 	{
 		return this.service.getAllDepartments();
 	}

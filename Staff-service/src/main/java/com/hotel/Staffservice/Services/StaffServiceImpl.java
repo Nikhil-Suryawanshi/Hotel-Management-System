@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hotel.Staffservice.Models.Staff;
+import com.hotel.Staffservice.Models.StaffList;
 import com.hotel.Staffservice.Repository.StaffMongoRepo;
 
 
@@ -34,6 +35,13 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public Optional<Staff> getEmp(long id) {
 		return repo.findById(id);
+	}
+
+	@Override
+	public StaffList getAllStaff() {
+		StaffList list=new StaffList();
+		list.setList(repo.findAll());
+		return list;
 	}
 	
 	

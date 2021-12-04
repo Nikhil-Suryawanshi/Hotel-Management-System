@@ -2,6 +2,7 @@ package com.hotel.receptionistservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +35,11 @@ public class RoomController {
 	{
 		restTmp.put("http://Room-Microservice/Room/updateRoom", room);
 		return room;
+	}
+	
+	@GetMapping("/getRoom/{id}")
+	public Room getRoom(@PathVariable("id") String id)
+	{
+		return restTmp.getForObject("http://Room-Microservice/Room/getRoom/"+id, Room.class);
 	}
 }

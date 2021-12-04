@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotel.Staffservice.Models.Staff;
+import com.hotel.Staffservice.Models.StaffList;
 import com.hotel.Staffservice.Services.StaffService;
 
 
@@ -44,5 +45,10 @@ public class StaffController {
 	public Optional<Staff> getEmployee(@PathVariable("id") String id)
 	{
 		return this.service.getEmp(Long.parseLong(id));
+	}
+	
+	@GetMapping("/getAllEmp")
+	public StaffList getAllStaff() {
+		return this.service.getAllStaff();
 	}
 }

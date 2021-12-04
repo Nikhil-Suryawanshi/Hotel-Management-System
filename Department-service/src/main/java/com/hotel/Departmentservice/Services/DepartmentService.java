@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.hotel.Departmentservice.Models.Department;
+import com.hotel.Departmentservice.Models.DepartmentList;
 
 @Service
 public interface DepartmentService {
@@ -17,5 +18,5 @@ public interface DepartmentService {
 
 	public Optional<Department> getDepartment(long id);
 
-	public List<Department> getAllDepartments();
+	public DepartmentList getAllDepartments();
 }

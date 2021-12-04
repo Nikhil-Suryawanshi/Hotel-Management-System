@@ -1,6 +1,6 @@
 package com.hotel.managerservice.controller;
 
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,37 +11,45 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import com.hotel.managerservice.models.StaffList;
 import com.hotel.managerservice.models.Staff;
-import com.hotel.managerservice.services.StaffService;
 
 @RestController
 @RequestMapping("/Manager/Staff")
 public class StaffController {
 	@Autowired
-	private StaffService service;
+	private RestTemplate restTmp;
 	
 	@PostMapping("/addEmp")
 	public Staff addEmployee(@RequestBody Staff emp)
 	{
-		return this.service.addEmp(emp);
+		return restTmp.postForObject("http://Staff-microservice/Staff/addEmp", emp, Staff.class);
 	}
 	
 	@PutMapping("/updateEmp")
 	public Staff updateEmployee(@RequestBody Staff emp)
 	{
-		return this.service.updateEmp(emp);
+		restTmp.put("http://Staff-microservice/Staff/updateEmp", emp);
+		return emp;
 	}
 	
 	@DeleteMapping("/deleteEmp/{id}")
 	public String deleteEmployee(@PathVariable("id") String id)
 	{
-		return this.service.deleteEmp(Long.parseLong(id));
+		restTmp.delete("http://Staff-microservice/Staff/deleteEmp/"+id);
+		return "Deleted Staff id: "+id;
 	}
 	
 	@GetMapping("/getEmp/{id}")
-	public Optional<Staff> getEmployee(@PathVariable("id") String id)
+	public Staff getEmployee(@PathVariable("id") String id)
 	{
-		return this.service.getEmp(Long.parseLong(id));
+		return restTmp.getForObject("http://Staff-microservice/Staff/getEmp/"+id, Staff.class);
+	}
+	
+	@GetMapping("/getAllEmp")
+	public StaffList getAllStaff() {
+		return restTmp.getForObject("http://Staff-microservice/Staff/getAllEmp", StaffList.class);
 	}
 }

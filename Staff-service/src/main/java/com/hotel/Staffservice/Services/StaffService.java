@@ -4,6 +4,7 @@ package com.hotel.Staffservice.Services;
 import java.util.Optional;
 
 import com.hotel.Staffservice.Models.Staff;
+import com.hotel.Staffservice.Models.StaffList;
 
 
 public interface StaffService {
@@ -15,5 +16,7 @@ public interface StaffService {
 	String deleteEmp(long id);
 
 	Optional<Staff> getEmp(long id);
+
+	StaffList getAllStaff();
 
 }

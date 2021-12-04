@@ -1,4 +1,4 @@
-package com.hotel.receptionistservice.controller;
+package com.hotel.Guestservice.Controllers;
 
 import java.util.Optional;
 
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import com.hotel.receptionistservice.models.Guest;
-import com.hotel.receptionistservice.models.GuestList;
+import com.hotel.Guestservice.Models.Guest;
+import com.hotel.Guestservice.Models.GuestList;
+import com.hotel.Guestservice.Services.GuestService;
+
 
 @RestController
-@RequestMapping("/Reception/Guest")
-public class ReceptionController {
-	
+@RequestMapping("/Guest")
+public class GuestController {
 	@Autowired
-	private RestTemplate restTmp;
+	private GuestService service;
 	
 	@GetMapping("/hello")
 	public String hello() {
@@ -31,33 +31,33 @@ public class ReceptionController {
 	@PostMapping("/addGuest")
 	public Guest addGuest(@RequestBody Guest guest)
 	{
-		return restTmp.postForObject("http://Guest-microservice/Guest/addGuest", guest, Guest.class);
+		return this.service.addGuest(guest);
 	}
 	
 	@PutMapping("/updateGuest")
 	public Guest updateGuest(@RequestBody Guest guest)
 	{
-		restTmp.put("http://Guest-microservice/Guest/updateGuest", guest);
-		return guest;
+		return this.service.updateGuest(guest); 
 	}
 	
 	@DeleteMapping("/deleteGuest/{id}")
 	public String deleteGuestById(@PathVariable("id") String id)
 	{
-		restTmp.delete("http://Guest-microservice/Guest/deleteGuest/"+id);
-		return "Deleted Guest with id: "+id;
+		return this.service.deleteGuest(Integer.parseInt(id));
 	}
 	
 	@GetMapping("getGuest/{id}")
-	public Guest getGuest(@PathVariable String id)
+	public Optional<Guest> getGuest(@PathVariable String id)
 	{
-		return restTmp.getForObject("http://Guest-microservice/Guest/getGuest/"+id, Guest.class);
+		return this.service.getGuest(Integer.parseInt(id));
 	}
 	
 	@GetMapping("getAllGuest")
 	public GuestList getAllGuest()
 	{
-		return restTmp.getForObject("http://Guest-microservice/Guest/getAllGuest", GuestList.class);
+		GuestList list=new GuestList();
+		list.setAllGuest(this.service.getAllGuest());
+		return list;
 	}
 	
 }

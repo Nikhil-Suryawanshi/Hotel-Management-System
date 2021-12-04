@@ -1,10 +1,10 @@
-package com.hotel.receptionistservice.services;
+package com.hotel.Guestservice.Services;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.hotel.receptionistservice.models.Guest;
-import com.hotel.receptionistservice.models.GuestList;
+import com.hotel.Guestservice.Models.Guest;
+
 
 public interface GuestService {
 

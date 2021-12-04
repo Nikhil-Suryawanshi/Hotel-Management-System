@@ -1,4 +1,4 @@
-package com.hotel.receptionistservice.services;
+package com.hotel.Guestservice.Services;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hotel.receptionistservice.Repository.GuestRepo;
-import com.hotel.receptionistservice.models.Guest;
-import com.hotel.receptionistservice.models.GuestList;
+import com.hotel.Guestservice.Models.Guest;
+import com.hotel.Guestservice.Repo.GuestRepo;
+
 
 @Service
 public class GuestServiceImpl implements GuestService {

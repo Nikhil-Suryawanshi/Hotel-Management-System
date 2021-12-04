@@ -20,19 +20,19 @@ public class RoomController {
 	@GetMapping("/getAvailableRooms")
 	public RoomList getAvailableRooms()
 	{
-		return restTmp.getForObject("http://localhost:8082/Manager/getAvlRooms", RoomList.class);
+		return restTmp.getForObject("http://Room-Microservice/Room/getAvlRooms", RoomList.class);
 	}
 	
 	@GetMapping("/getAllRooms")
 	public RoomList getAllRooms()
 	{
-		return restTmp.getForObject("http://localhost:8082/Manager/getAllRooms", RoomList.class);
+		return restTmp.getForObject("http://Room-Microservice/Room/getAllRooms", RoomList.class);
 	}
 	
 	@PutMapping("/updateRoom")
 	public Room updateRoom(@RequestBody Room room)
 	{
-		restTmp.put("http://localhost:8082/Manager/updateRoom", room);
+		restTmp.put("http://Room-Microservice/Room/updateRoom", room);
 		return room;
 	}
 }

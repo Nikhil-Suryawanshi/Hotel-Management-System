@@ -18,7 +18,7 @@ import com.hotel.ownerservice.models.DepartmentList;
 
 @RestController
 @RequestMapping("/Owner/Department")
-public class OwnerController {
+public class OwnerDepartmentController {
 	@Autowired
 	private RestTemplate restTmp;
 	

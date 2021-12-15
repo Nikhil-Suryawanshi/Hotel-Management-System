@@ -14,6 +14,10 @@ public class InventoryServiceImpl implements InventoryService {
 	@Autowired
 	private InventoryMongoRepo repo;
 
+	public InventoryServiceImpl(InventoryMongoRepo repo) {
+		this.repo=repo;
+	}
+
 	@Override
 	public Inventory addInventory(Inventory inv) {
 		return repo.insert(inv);

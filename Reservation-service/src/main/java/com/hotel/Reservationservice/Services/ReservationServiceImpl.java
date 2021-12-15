@@ -19,6 +19,11 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	private RestTemplate restTmp;
 
+	public ReservationServiceImpl(ReservationRepo repo,RestTemplate restTmp) {
+		this.repo=repo;
+		this.restTmp=restTmp;
+	}
+
 	@Override
 	public String bookRoom(Reservation res) {
 		Room room= restTmp.getForObject("http://Room-Microservice/Room/getRoom/"+res.getRoomId(), Room.class);

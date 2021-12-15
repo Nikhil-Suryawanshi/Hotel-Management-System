@@ -1,9 +1,8 @@
-package com.hotel.Departmentservice.controllers;
+package com.hotel.Roomservice.ControllerTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.apache.http.HttpStatus;
@@ -23,36 +22,38 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hotel.Departmentservice.Controllers.DepartmentController;
-import com.hotel.Departmentservice.Models.Department;
-import com.hotel.Departmentservice.Models.DepartmentList;
-import com.hotel.Departmentservice.Repo.MongoDBRepo;
-import com.hotel.Departmentservice.Services.DepartmentService;
+import com.hotel.Roomservice.Controllers.RoomController;
+import com.hotel.Roomservice.Models.Room;
+import com.hotel.Roomservice.Repo.ManagerMongoRepo;
+import com.hotel.Roomservice.Services.ManagerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(value = DepartmentController.class)
+@WebMvcTest(value = RoomController.class)
 @AutoConfigureMockMvc
-public class DepartmentControllerTest {
-	
+public class RoomControllerTest {
 	@Autowired
 	private MockMvc mvc;
 	
 	@MockBean
-	private DepartmentService service;
+	private ManagerService service;
 	
 	@MockBean
-	private MongoDBRepo repo;
-	
-	
+	private ManagerMongoRepo repo;
 	
 	@Test
 	public void getDepartmentTest() throws Exception
 	{
-		Department dept=new Department(1001,"Manager","This department is of Manager",5);
-		Optional<Department> deptOptional = Optional.of(dept);
-		String inputInJason= this.mapToJson(dept);
-		String uri="/Department/findById/1001";
-		Mockito.when(service.getDepartment(Mockito.anyLong())).thenReturn(deptOptional);
+		Room room=new Room();
+		room.setAvailable(true);
+		room.setDesc("Testing Desc");
+		room.setRoomNum(101);
+		room.setRoomRent(2000);
+		room.setType("Test Type");
+		
+		Optional<Room> roomOptional = Optional.of(room);
+		String inputInJason= this.mapToJson(room);
+		String uri="/Room/getRoom/101";
+		Mockito.when(service.getRoom(Mockito.anyInt())).thenReturn(roomOptional);
 		
 		MockHttpServletRequestBuilder req=MockMvcRequestBuilders
 				.get(uri)
@@ -63,16 +64,15 @@ public class DepartmentControllerTest {
 		String outputInJson = response.getContentAsString();
 		
 		assertThat(outputInJson).isEqualTo(inputInJason);
-		
 	}
 	
 	@Test
 	public void addDepartment() throws Exception
 	{
-		Department dept=new Department(1009L,"Test","This department is For testing",5);
-		String inputInJson= this.mapToJson(dept);
-		String uri="/Department/add";
-		Mockito.when(service.addDepartment(Mockito.any(Department.class))).thenReturn(dept);
+		Room room=new Room(109,"Test",2000,true,"This department is For testing");
+		String inputInJson= this.mapToJson(room);
+		String uri="/Room/addRoom";
+		Mockito.when(service.addRoom(Mockito.any(Room.class))).thenReturn(room);
 		MockHttpServletRequestBuilder req=MockMvcRequestBuilders
 				.post(uri)
 				.accept(MediaType.APPLICATION_JSON).content(inputInJson)
@@ -83,56 +83,27 @@ public class DepartmentControllerTest {
 		assertThat(outputInJson).isEqualTo(inputInJson);
 		assertEquals(HttpStatus.SC_OK,result.getResponse().getStatus());
 	}
-
-	@Test
-	public void getAllDepartment() throws Exception
-	{
-		List<Department> list= repo.findAll();
-		DepartmentList deptList = new DepartmentList();
-		deptList.setDeptList(list);
-		
-		String expectedList=this.mapToJson2(deptList);
-		String uri ="/Department/ShowAll";
-		
-		Mockito.when(service.getAllDepartments()).thenReturn(deptList);
-		
-		MockHttpServletRequestBuilder req=MockMvcRequestBuilders
-				.get(uri)
-				.accept(MediaType.APPLICATION_JSON);
-
-		MvcResult result =mvc.perform(req).andReturn();
-		MockHttpServletResponse response= result.getResponse();
-		String outputInJson = response.getContentAsString();
-		
-		assertThat(outputInJson).isEqualTo(expectedList);
-	}
-	
 	
 	@Test
 	public void deleteDepartmetnTest() throws Exception
 	{
-		String expectedOutput = "Department Deleted";
-		String uri="/Department/delete/1009";
-		Mockito.when(service.deleteDepartment(Mockito.anyLong())).thenReturn(expectedOutput);
+		String expectedOutput = "Room Deleted";
+		String uri="/Room/deleteRoom/109";
+		Mockito.when(service.deleteRoom(Mockito.anyInt())).thenReturn(expectedOutput);
 		MockHttpServletRequestBuilder req=MockMvcRequestBuilders
 				.delete(uri)
 				.accept(MediaType.ALL_VALUE);
 		MvcResult result =mvc.perform(req).andReturn();
 		String actualOutput = result.getResponse().getContentAsString();
 		assertThat(actualOutput).isEqualTo(expectedOutput);
-		assertThat(repo.existsById(1009L)).isFalse();
+		assertThat(repo.existsById(109)).isFalse();
 	}
 	
 	
-	private String mapToJson(Department dept) throws Exception{
+	
+	private String mapToJson(Room room) throws Exception
+	{
 		ObjectMapper objMapper=new ObjectMapper();
-		return objMapper.writeValueAsString(dept);
+		return objMapper.writeValueAsString(room);
 	}
-	
-	private String mapToJson2(DepartmentList dept) throws Exception{
-		ObjectMapper objMapper=new ObjectMapper();
-		return objMapper.writeValueAsString(dept);
-	}
-
-	   
 }

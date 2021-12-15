@@ -25,6 +25,12 @@ public class DepartmentController {
 	@Autowired
 	private DepartmentService service;
 	
+	/*
+	public DepartmentController(DepartmentService service) {
+		this.service = service;
+	}
+	*/
+	
 	@GetMapping("/hello")
 	public String helloMsg() {
 		return "hello owner";

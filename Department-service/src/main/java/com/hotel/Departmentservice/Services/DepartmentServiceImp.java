@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.hotel.Departmentservice.Exception.RequestNotFoundException;
 import com.hotel.Departmentservice.Models.Department;
 import com.hotel.Departmentservice.Models.DepartmentList;
 import com.hotel.Departmentservice.Repo.MongoDBRepo;
@@ -16,6 +17,10 @@ public class DepartmentServiceImp implements DepartmentService {
 	@Autowired
 	private MongoDBRepo repo;
 	
+	public DepartmentServiceImp(MongoDBRepo repo) {
+		this.repo=repo;
+	}
+	
 	@Override
 	public Department addDepartment(Department dept) {
 		return repo.insert(dept);
@@ -23,13 +28,15 @@ public class DepartmentServiceImp implements DepartmentService {
 
 	@Override
 	public String deleteDepartment(long id) {
-		repo.deleteById(id);
-		return "Department Deleted";
+			repo.deleteById(id);
+			return "Department Deleted";
+		
 	}
 
 	@Override
 	public Department updateDepartment(Department dept) {
-		return repo.save(dept);
+		//boolean isDeptAvl=repo.existsById(dept.getDepartmentID());
+			return repo.save(dept);
 	}
 
 	@Override
